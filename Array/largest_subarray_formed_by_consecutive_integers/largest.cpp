@@ -4,7 +4,7 @@ using namespace std;
 
 int largestsubarray(int arr[], int n)
 {
-  int maxlenArray=INT_MIN, len=0, start=0, end=0,beg=0;
+  int maxlenArray=INT_MIN, len=1, start=0, end=0,beg=0;
   
   for(int i=1;i<n;i++){
     if(arr[i-1]+1==arr[i]){
