@@ -37,7 +37,7 @@ main ()
 	      cin >> arr[i];
       sortusingcount(arr,n);
       cout<<endl;
-  }
+  
 
       
     }
