@@ -17,7 +17,7 @@ vector<int> Factorial(int n){
   vector<int>ans;
   ans.push_back(1);
   
-  for(int x=2;x<=2;x++)
+  for(int x=2;x<=n;x++)
     multiply(arr,x);
   
   reverse(arr.begin(),arr.end());
