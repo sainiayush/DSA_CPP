@@ -4,12 +4,10 @@ int findZeroes(int arr[], int n, int m) {
         int i=0, j=0, maxc=INT_MIN;
         
         while(i<n){
-            if(count<=m){
                 if(arr[i]==0){
                 count++;
                 }
                 i++;
-            }
             
             while(count>m){
                 
@@ -19,7 +17,7 @@ int findZeroes(int arr[], int n, int m) {
                 j++;
             }
             
-            if(maxc<i-j && count<=m){
+            if(maxc<i-j){
                 maxc=i-j;
                 l=j;
             }
