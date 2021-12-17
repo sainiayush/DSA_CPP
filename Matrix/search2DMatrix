@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        
+        if(matrix.size()==0) return false;
+        
+        int rows = matrix.size(), cols = matrix[0].size();
+        
+        int lo=0, hi=(rows*cols)-1;
+        
+        while(lo<=hi){
+            int mid = lo + (hi-lo)/2;
+            int rowIdx = mid/cols;
+            int colIdx = mid%cols;
+            
+            if(matrix[rowIdx][colIdx]==target) return true;
+            else if(matrix[rowIdx][colIdx]<target) lo=mid+1;
+            else hi=mid-1;
+        }
+        return false;
+    }
+};
