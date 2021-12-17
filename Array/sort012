@@ -1,0 +1,16 @@
+class Solution {
+public:
+    void sortColors(vector<int>& a) {
+        int red(0), white(0), blue(a.size()-1);
+        
+        while(white<=blue){
+            if(a[white]==0){
+                swap(a[white++],a[red++]);
+            } else if(a[white]==1){
+                white++;
+            } else{
+                swap(a[blue--],a[white]);
+            }
+        }
+    }   
+};
