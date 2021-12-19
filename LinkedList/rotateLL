@@ -1,0 +1,34 @@
+class Solution {
+    int countNodes(ListNode* head){
+        ListNode* curr=head;
+        int count(0);
+        while(curr){
+            count++;
+            curr=curr->next;
+        }
+        return count;
+    }
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(!head or !head->next or k==0) return head;
+        ListNode* curr=head;
+        int len = countNodes(head);
+        k=k%len;
+        k=len-k;
+        
+        while(curr->next){
+            curr=curr->next;
+        }
+        curr->next=head;
+        
+        curr=head;
+        for(int i=1;i<k;i++){
+            curr=curr->next;
+        }
+        head = curr->next;
+        curr->next=NULL;
+        
+        return head;
+        
+    }
+};
