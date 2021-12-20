@@ -13,6 +13,7 @@ public:
                 int currentNum = I;
                 
                 while(hashSet.count(currentNum+1)){
+                    hashSet.erase(currentNum);
                     currentStreak++; currentNum++;
                 }
                 maxStreak = max(maxStreak,currentStreak);
