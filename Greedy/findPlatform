@@ -1,0 +1,21 @@
+ int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	sort(arr,arr+n);
+    	sort(dep,dep+n);
+    	
+    	int maxPlatForms(1), initPlatForm(1);
+    	
+    	int i(1), j(0);
+    	
+    	while(i<n && j<n){
+    	    if(arr[i]<=dep[j]){
+    	        initPlatForm++;
+    	        i++;
+    	    } else if(arr[i]>dep[j]){
+    	        initPlatForm--;
+    	        j++;
+    	    } if(initPlatForm > maxPlatForms) maxPlatForms = initPlatForm;
+    	}
+    	return maxPlatForms;
+    }
