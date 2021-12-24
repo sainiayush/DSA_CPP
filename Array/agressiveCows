@@ -1,0 +1,47 @@
+//SPOJ --> https://www.spoj.com/problems/AGGRCOW/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isPossible(vector<int>& stallPos,int cnt, int n){
+	int cntCows=1;
+	int lastPlacedCow=stallPos[0];
+	int t=1;
+	for(;t<n;t++){
+		if(stallPos[t]-lastPlacedCow>=cnt){
+		lastPlacedCow=stallPos[t++];
+		cntCows++;
+		}
+		if(cntCows==cnt) return true;
+	}
+	
+	return false;
+}
+int main() {
+	// your code goes here
+	int T;
+	cin>>T;
+	
+	while(T--){
+		int n,cows;
+		cin>>n>>cows;
+		vector<int>stallPos(n,0);
+		
+		for(int i=0;i<n;i++) cin>>stallPos[i];
+		sort(stallPos.begin(),stallPos.end());
+		
+		int lo=0, hi=stallPos[n-1]-stallPos[0];
+		
+		while(lo<=hi){
+			int mid = lo + (hi-lo)>>2;
+			
+			if(isPossible(stallPos,mid,n)){
+				lo=mid+1;
+			} else{
+				hi=mid-1;
+			}
+		}
+		cout<<hi<<"\n";
+	}
+	return 0;
+}
