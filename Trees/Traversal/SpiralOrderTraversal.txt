@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+/************************************************************
+ 
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+        public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) 
+        {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+    
+************************************************************/
+
+vector<int> spiralOrder(BinaryTreeNode<int> *root)
+{
+	// Write Your Code Here.
+    vector<int>ans;
+    
+    if(!root) return ans;
+    
+   queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    
+    bool leftToRight=true;
+    while(!q.empty()){
+        int sz=q.size();
+        vector<int>a(sz);
+        for(int i=0;i<sz;i++){
+			BinaryTreeNode<int>* frt=q.front();
+            q.pop();
+            
+            int index = (leftToRight)?i:sz-i-1;
+            a[index]=frt->data;
+            
+            if(frt->left) q.push(frt->left);
+            if(frt->right) q.push(frt->right);
+         
+        }
+        leftToRight=!leftToRight;
+        ans.insert(ans.end(), a.begin(), a.end());
+    }
+    return ans;
+}
