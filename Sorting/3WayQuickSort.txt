@@ -1,0 +1,24 @@
+pair<long,long> partition(vector<long>& arr, long start, long end){
+  long mid{start}, pivot{arr[end]};
+
+  while(mid <= end){
+    if(arr[mid] < pivot){
+      swap(arr[mid++],arr[start++]);
+    }else if(arr[mid] > pivot){
+      swap(arr[mid], arr[end--]);
+    }else{
+      ++mid;
+    }
+  }
+  return make_pair(start-1,end);
+}
+
+void quicksort(vector<long>& arr, long start, long end){
+  if(start>=end) return;
+
+  pair<long,long> pivot=partition(arr,start,end);
+  
+  // pair will be containing the start and end positions other than the pivot element.
+  quicksort(arr, start, pivot.ff);
+  quicksort(arr, pivot.ss, end);
+}
