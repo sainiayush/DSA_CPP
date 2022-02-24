@@ -33,7 +33,7 @@ int main() {
 		int lo=0, hi=stallPos[n-1]-stallPos[0];
 		
 		while(lo<=hi){
-			int mid = lo + (hi-lo)>>2;
+			int mid = lo + (hi-lo)>>1;
 			
 			if(isPossible(stallPos,mid,n)){
 				lo=mid+1;
