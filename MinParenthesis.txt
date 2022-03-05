@@ -1,0 +1,21 @@
+int minimumParentheses(string str) {
+    // Write your code here.
+    // pattern is the given string.
+    map<char,int>mp;
+  int cnt{0};
+
+  for(int i=str.size()-1;i>=0;i--){
+    char ch=str[i];
+    mp[ch]++;
+    if(ch=='('){
+      if(mp.find(')')!=mp.end() and mp[')']>0){
+        mp[')']--;
+        mp[ch]--;
+      }
+    }
+  }
+  for(auto it: mp) {
+    cnt += it.second;
+  }
+  return cnt;
+}
