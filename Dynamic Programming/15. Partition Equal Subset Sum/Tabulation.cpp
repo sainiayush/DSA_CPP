@@ -5,7 +5,7 @@ bool canPartition(vector<int> &arr, int n){
     int k=s/2;
     vector<vector<bool>>dp(n, vector<bool>(k+1,false));
     for(int i=0;i<n;i++) dp[i][0]=true;
-    dp[0][arr[0]]=true;
+    if(arr[0]<=k) dp[0][arr[0]]=true;
     
     for(int ind=1;ind<n;ind++){
         for(int target=1;target<=k;target++){
