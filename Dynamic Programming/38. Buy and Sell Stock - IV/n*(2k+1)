@@ -1,0 +1,16 @@
+int maximumProfit(vector<int> &prices, int n, int k){
+    // Write your code here.
+        
+        vector<vector<int>> dp(n+1, vector<int>(2*k+1,0));
+        
+        
+        for(int ind=n-1;ind>=0;ind--){
+                for(int kTrans=2*k-1;kTrans>=0;kTrans--){
+                    if(kTrans%2==0) dp[ind][kTrans] = max(-prices[ind]+dp[ind+1][kTrans+1], 
+                                                      dp[ind+1][kTrans]);
+                    else dp[ind][kTrans] = max(prices[ind]+dp[ind+1][kTrans+1],
+                                                   dp[ind+1][kTrans]);
+            }
+        }
+        return dp[0][0];
+}
