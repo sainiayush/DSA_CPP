@@ -1,0 +1,13 @@
+vector<int> ahead(2*k+1,0), curr(2*k+1,0);
+        
+        
+        for(int ind=n-1;ind>=0;ind--){
+                for(int kTrans=2*k-1;kTrans>=0;kTrans--){
+                    if(kTrans%2==0) curr[kTrans] = max(-prices[ind]+ahead[kTrans+1], 
+                                                      ahead[kTrans]);
+                    else curr[kTrans] = max(prices[ind]+ahead[kTrans+1],
+                                                   ahead[kTrans]);
+            }
+            ahead=curr;
+        }
+        return ahead[0];
