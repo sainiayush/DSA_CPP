@@ -12,7 +12,7 @@ int f(vector<int>& cuts,int i,int j,vector<vector<int>>& dp){
 }
 int cost(int n, int c, vector<int> &cuts){
     // Write your code here.
-    vector<vector<int>>dp(n+3, vector<int>(n+3,-1));
+    vector<vector<int>>dp(c+1, vector<int>(c+1,-1));
        cuts.emplace_back(n);
        cuts.insert(cuts.begin(), 0);
        sort(cuts.begin(),cuts.end());
