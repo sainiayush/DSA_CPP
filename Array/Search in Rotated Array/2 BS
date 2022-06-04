@@ -1,0 +1,33 @@
+int binarySearch(int* arr,int l,int h,int key){
+        if(h<l) return -1;
+        int mid = l + ((h-l)>>1);
+        
+        if(key==arr[mid]) return mid;
+        
+        else if(key > arr[mid]) return binarySearch(arr,mid+1,h,key);
+        return binarySearch(arr,l,mid-1,key);
+    }
+    int findPivot(int* arr,int l,int h){
+        if(h<l) return -1;
+        if(h==l) return l;
+        
+        int mid= l + ((h-l)>>1);
+        
+        if(mid < h && arr[mid]>arr[mid+1]) return mid;
+        if(mid > l && arr[mid-1]>arr[mid]) return mid-1;
+        
+        if(arr[l]>=arr[mid]) return findPivot(arr,l,mid-1);
+        
+        return findPivot(arr,mid+1,h);
+    }
+    public:
+    int search(int A[], int l, int h, int key){
+    //complete the function here
+    int pivot = findPivot(A,0,h);
+    
+    if(pivot==-1) return binarySearch(A,l,h,key);
+    
+    if(A[pivot]==key) return pivot;
+    if(A[0] <= key) return binarySearch(A,0,pivot-1,key);
+    return binarySearch(A,pivot+1,h,key);
+    }
