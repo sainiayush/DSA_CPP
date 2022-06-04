@@ -1,0 +1,15 @@
+int search(int A[], int l, int h, int key){
+    //complete the function here
+        if(l>h) return -1;
+        
+        int mid = l + ((h-l)>>1);
+        if(A[mid]==key) return mid;
+        
+        if(A[l]<=A[mid]){
+            if(key>=A[l] and key<=A[mid]) return search(A,l,mid-1,key);
+            return search(A,mid+1,h,key);
+        }
+        
+        if(key>=A[mid] and key<=A[h]) return search(A,mid+1,h,key);
+        return search(A,l,mid-1,key);
+    }
