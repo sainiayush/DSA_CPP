@@ -1,27 +1,21 @@
-int t[201][201];
-   //Function to find minimum number of attempts needed in 
-   //order to find the critical floor.
-   int solve(int n,int k){
-       if(n==1)return k;
-       if(k==0||k==1)return k;
-       if(t[n][k]!=-1)return t[n][k];
-       int mn=INT_MAX;
-       for(int j=1;j<=k;j++){
-           
-           int temp=1+max(solve(n-1,j-1),solve(n,k-j));
-           
-           if(temp<mn){
-               mn=temp;
-           }
-           
-       }
-       return t[n][k]=mn;
-   }
-   int eggDrop(int n, int k) 
-   {
-       // your code here
-       
-       memset(t,-1,sizeof(t));
-       return solve(n,k);
-       
-   }
+int eggDrop(int n, int k) {
+        // your code here
+        vector<vector<int>> dp(n+1 , vector<int>(k+1 ,0 ));
+        
+        
+        for(int i=1;i<=n;++i){
+            for(int j=1;j<=k;++j){
+                if(i==1) dp[i][j]=j;
+                else if(j==1) dp[i][j]=1;
+                else{
+                    int mini=INT_MAX;
+                    for(int mj=j-1, pj=0;mj>=0; mj--, pj++){
+                        int val = max(dp[i][mj], dp[i-1][pj]);
+                        mini=min(mini,val);
+                    }
+                    dp[i][j]=mini+1;
+                }
+            }
+        }
+        return dp[n][k];
+    }
