@@ -1,0 +1,40 @@
+struct Node{
+    Node* links[26];
+    
+    Node(){
+        for(int i=0;i<26;++i) links[i]=NULL;
+    }
+    bool containsKey(char ch){
+        return links[ch-'a']!=NULL;
+    }
+    void putNode(char ch,Node* node){
+        links[ch-'a']=node;
+    }
+    Node* getNode(char ch){
+        return links[ch-'a'];
+    }
+    ~Node(){
+        for(int i=0;i<26;++i){
+            if(links[i]) delete links[i];
+        }
+    }
+};
+int countDistinctSubstrings(string &s){
+    //    Write your code here.
+    Node* node=new Node();
+    int cnt{1};
+    
+    for(int i=0;i<s.size();i++){
+        Node* root=node;
+        for(int j=i;j<s.size();j++){
+            if(!root->containsKey(s[j])){
+                cnt++;
+                root->putNode(s[j], new Node());
+            }
+            root=root->getNode(s[j]);
+        }
+    }
+    
+    delete node;
+    return cnt;
+}
