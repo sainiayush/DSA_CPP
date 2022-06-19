@@ -1,0 +1,90 @@
+struct Node{
+    int cntPrefix=0;
+    int cntEndsWith=0;
+    Node* links[26];
+    
+    Node* getNode(char ch){
+        return links[ch-'a'];
+    }
+    bool containsKey(char ch){
+        return links[ch-'a']!=NULL;
+    }
+    void putNode(char ch,Node* node){
+        links[ch-'a']=node;
+    }
+    int getEnd(){
+        return cntEndsWith;
+    }
+    int getPrefix(){
+        return cntPrefix;
+    }
+    void reducePrefix(){
+        cntPrefix--;
+    }
+    void reduceEnd(){
+        cntEndsWith--;
+    }
+    void increaseEnd(){
+        cntEndsWith++;
+    }
+    void increasePrefix(){
+        cntPrefix++;
+    }
+};
+class Trie{
+    private: Node* root;
+    public:
+
+    Trie(){
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        root=new Node();
+        // Write your code here.
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        Node* node=root;
+        for(char ch: word){
+            if(!node->containsKey(ch))
+                node->putNode(ch,new Node());
+            node=node->getNode(ch);
+            node->increasePrefix();
+        }
+        node->increaseEnd();
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+        Node* node=root;
+        for(char ch: word){
+            if(!node->containsKey(ch)) return 0;
+            node=node->getNode(ch);
+        }
+        return node->getEnd();
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        Node* node=root;
+        for(char ch: word){
+            if(!node->containsKey(ch))
+                return 0;
+            node=node->getNode(ch);
+        }
+        return node->getPrefix();
+    }
+
+    void erase(string &word){
+        // Write your code here.
+        Node* node=root;
+        for(char ch:word){
+            if(node->containsKey(ch)){
+            node=node->getNode(ch);
+            node->reducePrefix();
+            }
+            else return;
+        }
+        node->reduceEnd();
+    }
+};
