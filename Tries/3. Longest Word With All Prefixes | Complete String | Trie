@@ -1,0 +1,66 @@
+struct Node{
+      Node* links[26];
+      bool flag=false;
+        
+      bool containsKey(char ch){
+          return links[ch-'a']!=NULL;
+      }
+      void putNode(char ch,Node* node){
+          links[ch-'a']=node;
+      }
+      Node* getNode(char ch){
+          return links[ch-'a'];
+      }
+      bool getFlag(){
+          return flag;
+      }
+      void setFlag(){
+          flag=true;
+      }
+};
+class Trie{
+      private: Node* root;
+    public:
+    Trie(){
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        root=new Node();
+    }
+    
+    void insert(string& word){
+        Node* node=root;
+        for(char ch: word){
+            if(!node->containsKey(ch))
+                node->putNode(ch,new Node());
+            node=node->getNode(ch);
+        }
+        node->setFlag();
+    }
+    bool checkPrefixes(string &word){
+        Node* node=root;
+        bool flag=true;
+        for(int i=0;i<word.size() && flag;i++){
+            if(!node->containsKey(word[i])) return false;
+            node=node->getNode(word[i]);
+            flag = flag && node->getFlag();
+        }
+        return flag;
+    }
+};
+string completeString(int n, vector<string> &a){
+    // Write your code here.
+    Trie* trie=new Trie();
+    for(auto &word: a) trie->insert(word);
+    
+    string longest{""};
+    
+    for(auto &word: a){
+        if(trie->checkPrefixes(word)){
+            if(longest.length() < word.length()) longest=word;
+            else if(longest.length()==word.length()){
+                if(word < longest) longest=word;
+            }
+        }
+    }
+    return longest==""?"None":longest;
+}
