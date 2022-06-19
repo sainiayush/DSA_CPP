@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+#define all(container) container.begin(), container.end()
+struct Node{
+    Node* links[2];
+    
+    bool containsKey(int bit) {
+        return links[bit]!=NULL;
+    }
+    Node* getNode(int bit){
+        return links[bit];
+    }
+    void putNode(int bit,Node* node){
+        links[bit]=node;
+    }
+};
+
+class Trie{
+    private: Node* root;
+    public:
+    Trie(){
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        root=new Node();
+    }
+    
+    void insert(int& num){
+        Node* node=root;
+        
+        for(int i=31;i>=0;i--){
+            int bit = !!((num>>i)&1);
+            if(!node->containsKey(bit))
+                node->putNode(bit, new Node());
+            node=node->getNode(bit);
+        }
+    }
+    
+    int getMax(int& num){
+        Node* node=root;
+        int maxNum=0;
+        
+        for(int i=31;i>=0;i--){
+            int bit = !!((num>>i)&1);
+            if(node->containsKey(!bit)){
+                maxNum |= (1<<i);
+                node=node->getNode(!bit);
+            }
+            else node=node->getNode(bit);
+        }
+        return maxNum;
+    }
+};
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries){
+	//	Write your coode here.
+    Trie* trie = new Trie();
+    sort(all(arr));
+    
+    vector<pair<int, pair<int,int>>> oQ;
+    
+    int index=0;
+    for(auto it: queries)
+        oQ.push_back({it[1], {it[0], index++}});
+    
+    sort(all(oQ));
+    
+    index=0;
+    
+    vector<int>ans(queries.size(),0);
+    
+    
+    for(auto& it: oQ){
+        int ai=it.first;
+        while(index< arr.size() and arr[index]<=ai) 
+            trie->insert(arr[index++]);
+        
+        if(!index) ans[it.second.second]=-1;
+        else ans[it.second.second]=trie->getMax(it.second.first);
+    }
+    
+    return ans;
+}
