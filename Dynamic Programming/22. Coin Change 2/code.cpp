@@ -1,21 +1,26 @@
-int minimumElements(vector<int> &num, int x)
-{
-    int n=num.size();
-    vector<int>prev(x+1,0),curr(x+1,0);
-    // Write your code here.  n
-    for(int t=0;t<=x;t++){
-        if(t%num[0]==0) prev[t]=t/num[0];
-        else prev[t]=1e9;
-    }
-    
-    for(int ind=1;ind<n;ind++){
-        for(int target=0;target<=x;target++){
-            int noTake= 0 + prev[target];
-            int take = 1e9;
-            if(num[ind]<=target) take=1+curr[target-num[ind]];
-            curr[target]=min(take,noTake);
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+        cout.tie(NULL);
+        
+        int n=coins.size();
+        //vector<vector<int>> dp(n, vector<int>(amount+1,0));
+        vector<int>prev(amount+1,0), curr(amount+1,0);
+        
+        for(int i=0;i<=amount;++i){
+                prev[i]=(i%coins[0]==0);
         }
-        prev=curr;
+        
+        for(int ind=1;ind<n;ind++){
+            for(int target=0;target<=amount;target++){
+                int notTake=prev[target];
+                int take=(coins[ind]<=target)?curr[target-coins[ind]]:0;
+                curr[target]=take+notTake;
+            }
+            prev=curr;
+        }
+        return prev[amount];
     }
-    return prev[x]>=1e9?-1:prev[x];
-}
+};
