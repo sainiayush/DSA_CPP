@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAXBIT 21
+static int  MAXBIT = 2;
 vector<int> parent, value;
 vector<int> *child;
 pair<int,int> *upperCeil;
@@ -22,7 +22,7 @@ int cal(int u,int w){
 
   if(w >= upperCeil[u].first)
     return 0;
-    
+
   int curr=u;
 
   /*
@@ -42,14 +42,14 @@ int cal(int u,int w){
   return upperCeil[u].second - upperCeil[curr].second;
 }
 
-/*
+
 void setMaxBIT(int n){
   while((1<<MAXBIT) <= n){
     MAXBIT++;
   }
   MAXBIT--;
 } 
-*/
+
 
 void build(int n){
   table[0] = parent;
@@ -83,7 +83,7 @@ void solve() {
 
     dfs(1,0,0);
 
-    //setMaxBIT(n); //Setting the MAXBIT
+    setMaxBIT(n); //Setting the MAXBIT
     
     //Resizing the Sparse Table
     table.resize(MAXBIT+1);
