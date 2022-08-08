@@ -44,7 +44,7 @@ void build(vector<vector<int>>& table, vector<int>& parent,int n){
   table[0] = parent;
 
   for(int i=1;i<=MAXBIT;++i){
-    for(int j=2;j<=n;++j)
+    for(int j=1;j<=n;++j)
       table[i][j] = table[i-1][table[i-1][j]];
   }
 }
