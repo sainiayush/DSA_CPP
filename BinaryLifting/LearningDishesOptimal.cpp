@@ -19,10 +19,6 @@ void dfs(int node, int mx,int cnt){
 }
 
 int cal(int u,int w){
-
-  if(w >= upperCeil[u].first)
-    return 0;
-
   int curr=u;
 
   /*
@@ -103,9 +99,11 @@ void solve() {
 
       u ^= pr;
       w ^= pr;
-
-
-      pr=cal(u,w);
+      
+      if(w >= upperCeil[u].first)
+        pr=0;
+      else
+        pr=cal(u,w);
       cout<<pr<<'\n';
     }
 }
