@@ -108,6 +108,15 @@ void solve() {
     }
 }
 
+/*
+Status:
+Correct Answer
+Submission ID:
+70841324
+Time:
+1.02s
+*/
+
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
