@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-using i64 = long long;
 
 //BIT preprocessing in O(N)
 int prefixSum(int idx, vector<int> &fen){
