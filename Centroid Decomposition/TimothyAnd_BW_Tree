@@ -1,0 +1,145 @@
+int n;
+// LCA Calculations
+vector<vector<int>> LCA, g;
+vector<int> parent, lvl;
+
+void DFS(int node, int par=0, int level=1){
+  lvl[node]=level;
+  for(int v: g[node]){
+    if(v==par) continue;
+    parent[v]=node;
+    DFS(v, node, level+1);
+  }
+}
+void build(){
+  parent.assign(n+1, 0);
+  lvl.assign(n+1, 0);
+  DFS(1);
+  LCA.assign(MAXBIT+1, vector<int>(n+1, 0));
+  LCA[0]=parent;
+
+  for(int i=1; i<=MAXBIT; ++i)
+    for(int j=1; j<=n; ++j) 
+      LCA[i][j]=LCA[i-1][LCA[i-1][j]];
+}
+int find_LCA(int a,int b){
+  if(lvl[a] > lvl[b])
+    swap(a, b);
+
+  int k = lvl[b]-lvl[a];
+
+  for(int i=MAXBIT; i>=0; --i)
+    if(k & (1<<i))
+      b=LCA[i][b];
+
+  if(a==b)
+    return a;
+
+  for(int i=MAXBIT; i>=0; --i){
+    int ap=LCA[i][a];
+    int bp=LCA[i][b];
+
+    if(ap != bp){
+      a=ap;
+      b=bp;
+    }
+  }
+  return LCA[0][a];
+}
+int kthAncestor(int a, int k){
+  for(int i=MAXBIT; i>=0; --i)  
+    if(k & (1<<i))  
+      a=LCA[i][a];
+  return a;
+}
+int computeDistance(int a,int b){
+  return lvl[a] + lvl[b] - 2*lvl[find_LCA(a, b)];
+}
+
+//Centroid Decomposition
+int substree_sz;
+vector<int> cenpar, sz;
+vector<bool> done;
+void find_substree_size(int node, int par){
+  substree_sz++;
+  sz[node]=1;
+  for(auto v: g[node]){
+    if(v==par || done[v]) continue;
+    find_substree_size(v, node);
+    sz[node] += sz[v];
+  }
+}
+int find_centroid(int node, int par){
+  for(auto v: g[node]){
+    if(v==par || done[v]) continue;
+    else if(sz[v] > substree_sz/2)
+      return find_centroid(v, node);
+  }
+  return node;
+}
+
+void decompose(int node, int par){
+  substree_sz=0;
+  find_substree_size(node, par);
+  int centroid = find_centroid(node, par);
+  cenpar[centroid]=par;
+  done[centroid]=true;
+
+  for(auto v: g[centroid]){
+    if(v==par || done[v]) continue;
+    decompose(v, centroid);
+  }
+}
+
+vector<int> ans;
+void update(int node){
+  int curr = node;
+  while(curr){
+    chmin(ans[curr], computeDistance(curr ,node));
+    curr=cenpar[curr];
+  }
+}
+
+int query(int node){
+  int ret=1e9;
+  int curr=node;
+  while(curr){
+    chmin(ret, ans[curr]+computeDistance(node, curr));
+    curr=cenpar[curr];
+  }
+  return ret;
+}
+int main(){
+  TEST{
+    cin >> n;
+
+    cenpar.assign(n+1, 0);
+    done.assign(n+1, false);
+    sz.assign(n+1, 0);
+    ans.assign(n+1, 1e9);
+    g.assign(n+1, vector<int>());
+
+    VEC(int, c, n);
+    for(int i=0; i<n-1; ++i){
+      INT(u, v);
+      g[u].eb(v);
+      g[v].eb(u);
+    }
+
+    build();
+    decompose(1, 0);
+    update(c[0]);
+
+    //cout << parent << '\n';
+    //cout << cenpar << '\n';
+
+    int ret = inf<int>;
+    for(int i=1; i<n; ++i){
+      chmin(ret, query(c[i]));
+      update(c[i]);
+      cout << ret << ' ';
+    }
+    if(testcases) cout << endl;
+  }
+  return 0;
+}
