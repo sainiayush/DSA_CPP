@@ -1,0 +1,54 @@
+void DFS(int node, int par, vector<int>& travel, vector<int>& start, vector<int>& lvl, vector<vector<int>>& g){
+  start[node]=len(travel);
+  travel.eb(node);
+
+  for(auto v: g[node]){
+    if(v != par){
+      lvl[v]=lvl[node]+1;
+      DFS(v, node, travel, start, lvl, g);
+      travel.eb(node);
+    }
+  }
+}
+int main(){
+  INT(tt);
+  for(int t=1; t<=tt; ++t){
+    INT(n);
+    vector<vector<int>> g(n+1);
+    for(int i=1; i<=n ;++i){
+      INT(cnt);
+      for(int j=0; j<cnt; ++j){
+        INT(node);
+        g[i].eb(node);
+      }
+    }
+
+    vector<int> travel, start(n+1), lvl(n+1);
+    DFS(1, 0, travel, start, lvl, g);
+
+    lvl[0]=INT_MAX;
+    int k=log2(len(travel))+1;
+    vector<vector<int>> sparse(k, vector<int>(len(travel)));
+    sparse[0]=travel;
+
+    for(int j=1; j<k; ++j)
+      for(int i=0; i+(1<<j) <= len(travel); ++i){
+        int u=sparse[j-1][i];
+        int v=sparse[j-1][i+(1<<(j-1))];
+        sparse[j][i] = (lvl[u] > lvl[v] ? v : u);
+      }
+    cout << "Case "<<t << ":\n";
+    TEST{
+      INT(u, v);
+      int mini = min(start[u], start[v]);
+      int maxi = max(start[u], start[v]);
+      int cnt=maxi-mini+1;
+      int k=log2(cnt);
+
+      int a=sparse[k][mini];
+      int b=sparse[k][maxi - (1<<k) + 1];
+      cout << (lvl[a] > lvl[b] ? b : a) << endl;
+    }
+  }
+  return 0;
+}
