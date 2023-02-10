@@ -1,0 +1,36 @@
+#include <bits/stdc++.h> 
+int reverseEdges(int n, int start, int end, vector<vector<int>> &edgeList){
+
+	vector<pair<int,int>> g[n+1];
+	for(auto it: edgeList){
+		g[it.front()].emplace_back(it.back(), 0);
+		g[it.back()].emplace_back(it.front(), 1);
+	}
+
+	deque<pair<int,int>> q;
+	q.push_front({start, 0});
+	
+	vector<bool> vis(n+1);
+	vis[start]=true;
+	while(!q.empty()){
+		int node=q.front().first;
+		int cost=q.front().second;
+		q.pop_front();
+
+		if(node==end)
+			return cost;
+
+		for(auto v: g[node]){
+			if(!vis[v.first]){
+				vis[v.first]=true;
+				if(v.second){
+					q.push_back({v.first, cost+1});
+				}
+				else{
+					q.push_front({v.first, cost});
+				}
+			}
+		}
+	}
+	return 0;
+}
