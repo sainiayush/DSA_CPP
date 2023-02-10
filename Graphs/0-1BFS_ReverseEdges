@@ -32,5 +32,5 @@ int reverseEdges(int n, int start, int end, vector<vector<int>> &edgeList){
 			}
 		}
 	}
-	return 0;
+	return -1;
 }
