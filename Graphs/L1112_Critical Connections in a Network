@@ -1,5 +1,5 @@
 
-//Simple : TARJAN's ALGORITHM
+//Approach : TARJAN's ALGORITHM
 
 
 template<class T> bool chmin(T& a, const T& b){ if(a <= b) return 0; a = b; return 1; }
