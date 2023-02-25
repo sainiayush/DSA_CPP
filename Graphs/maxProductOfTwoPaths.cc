@@ -1,3 +1,4 @@
+//Approach: Max Diameter 
 int DFS(int node, int parent, int& currMax){
     int max1=0, max2=0;
     int total=0;
